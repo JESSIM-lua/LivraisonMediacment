@@ -26,7 +26,7 @@ COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 RUN a2enmod rewrite && service apache2 restart
 
 # Étape 7 : Copier les fichiers Laravel
-COPY . .
+# COPY . .
 
 # Étape 8 : Définir les permissions
 RUN chown -R www-data:www-data /var/www/html \
