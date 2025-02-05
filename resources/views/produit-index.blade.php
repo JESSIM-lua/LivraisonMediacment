@@ -53,13 +53,15 @@
             gap: 10px;
         }
     </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
     <div class="container">
         <h1>Produits</h1>
         <ul>
             @foreach($produits as $produit)
-                <li class="produit">
+                    <li class="produit" data-id="{{ $produit->id }}">
+
                     <span>{{ $produit->libelle }} - {{ $produit->prix }}€</span>
                     <button class="btn">Ajouter au panier</button>
                     <div class="counter">
@@ -89,5 +91,48 @@
             });
         });
     </script>
+    <script>
+        document.querySelectorAll('.produit').forEach(produit => {
+            let countElement = produit.querySelector('.count');
+            let btnCountMoins = produit.querySelector('.btn-moins');
+            let btnCountPlus = produit.querySelector('.btn-plus');
+            let btnAjouter = produit.querySelector('.btn');
+            let produitId = produit.getAttribute('data-id');
+    
+            let count = 0;
+            
+            btnCountMoins.addEventListener('click', function() {
+                if (count > 0) count--;
+                countElement.innerText = count;
+            });
+            
+            btnCountPlus.addEventListener('click', function() {
+                count++;
+                countElement.innerText = count;
+            });
+    
+            btnAjouter.addEventListener('click', function() {
+                if (count > 0) {
+                    fetch("{{ route('ajouter.panier') }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({
+                            produit_id: produitId,
+                            quantite: count
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => alert(data.message))
+                    .catch(error => console.error("Erreur:", error));
+                } else {
+                    alert("Ajoutez au moins un produit");
+                }
+            });
+        });
+    </script>
+    
 </body>
 </html>
