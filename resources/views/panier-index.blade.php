@@ -60,10 +60,12 @@
     <p>Entreprise : {{$entreprise->nom}}</p><br>
     <p>Adresse : {{$entreprise->adresse}}</p><br>
     <p>Les produits du panier</p>
-    @php $PrixTotal = 0; @endphp
+    @php $PrixTotal = 0; 
+    
+    @endphp
     @foreach ($produits as $produit)
         <li class="produit" data-id="{{ $produit->id }}">
-            <span>id : {{ $produit->id }} - {{ $produit->libelle }}  -  prix {{$produit->prix}} €</span>
+            <span>id : {{ $produit->id }} - {{ $produit->libelle }}  -  prix {{$produit->prix * 3 }} €</span>
             <button class="btn">Supprimer du panier</button>
             @php $PrixTotal += $produit->prix; @endphp
         </li>

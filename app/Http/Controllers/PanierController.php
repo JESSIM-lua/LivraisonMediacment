@@ -48,6 +48,8 @@ class PanierController extends Controller
             ->select('pr.*')
             ->get();
 
+        
+
         return view('panier-index', ['produits' => $produits, 'paniers' => $panier, 'entrepriseId' => $entrepriseId, 'entreprise' => $entreprise]);
     }
 
