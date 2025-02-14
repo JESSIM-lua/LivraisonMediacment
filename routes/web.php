@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Produits;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PanierController;
+use App\Http\Controllers\EntrepriseController;
 
 
 Route::get('/', function () {
@@ -22,6 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/ajouter-panier', action: [PanierController::class, 'ajouterAuPanier'])->name('ajouter.panier');
     Route::get('/panier', action: [PanierController::class, 'index'])->name('panier.index');
 });
+
+Route::get('/entreprises', [EntrepriseController::class, 'index'])->name('entreprises.index');
 
 
 
